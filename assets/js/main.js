@@ -11,6 +11,7 @@ ChatConnection.addEventListener('message', function (e) {
     if (Verified) {
         const AnswerObject = JSON.parse(e.data);
         $(".ChatMessages").append("<div>" + AnswerObject.Username + " - " + AnswerObject.Message + "</div><br>"); // TODO: Write to site etc
+        $(".ChatMessages div:last-of-type").fadeIn();
     }
 });
 

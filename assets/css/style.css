@@ -1,7 +1,7 @@
 /* STYLESHEET BY MARCO ALEXANDER FISCHER AND MARVIN BORNER */
 
 * {
-    font-family: Arial, serif !important;
+    font-family: Arial;
 }
 
 html, body {
@@ -24,6 +24,10 @@ html, body {
     height: calc(100vh - 4em);
     width: 100%;
     overflow: scroll;
+}
+
+.ChatMessages div {
+    display: none;
 }
 
 .ChatTextInput {
