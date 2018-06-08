@@ -1,6 +1,6 @@
 $(function () {
     // Global declarations
-    var ChatConnection = new WebSocket('ws://localhost:8080');
+    var ChatConnection = new WebSocket('ws://93.201.176.64:1337');
 
     ChatConnection.addEventListener('open', function(e){
         console.log("Connection established!");
