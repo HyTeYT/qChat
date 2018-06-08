@@ -1,31 +1,47 @@
 // Global declarations
 var ChatConnection = new WebSocket('ws://93.201.176.64:1337');
+var Verified = false;
+const ChatTextInput = $(".ChatTextInput");
 
 ChatConnection.addEventListener('open', function (e) {
     console.log("Connection established!");
 });
 
 ChatConnection.addEventListener('message', function (e) {
-    if (Username !== undefined) {
+    if (Verified) {
         const AnswerObject = JSON.parse(e.data);
-        $(".ChatMessages").append(AnswerObject.Username + " - " + AnswerObject.Message); // TODO: Write to site etc
+        $(".ChatMessages").append("<div>" + AnswerObject.Username + " - " + AnswerObject.Message + "</div><br>"); // TODO: Write to site etc
     }
 });
 
-const Username = prompt('Bitte gib deinen Namen ein!'); // TODO: Use prompt alternative
-if (Username !== "") {
-    ChatConnection.send(JSON.stringify({
-        Type: "Join",
-        Username: Username
-    }));
+swal({
+    text: 'Gebe deinen Namen ein!',
+    content: "input",
+    button: {
+        text: "Okay"
+    },
+})
+    .then(Username => {
+        if (!Username) throw null;
 
-    OpenMessageSender(); // TODO: REWRITE!
-}
+        if (Username !== "") {
+            Verified = true;
 
-function OpenMessageSender() {
-    let Message = prompt("Gebe deine Nachricht ein!"); // TODO: Interface (jquery input or sth)
-    ChatConnection.send(JSON.stringify({
-        Type: "Message",
-        Message: Message
-    }));
-}
+            ChatConnection.send(JSON.stringify({
+                Type: "Join",
+                Username: Username
+            }));
+            $(".ChatWindow").fadeIn();
+            return swal(`Hallo ${Username}!`);
+        }
+    });
+
+ChatTextInput.keyup(function (e) {
+    if (e.keyCode === 13 && ChatTextInput.val().length > 0) {
+        ChatConnection.send(JSON.stringify({
+            Type: "Message",
+            Message: ChatTextInput.val()
+        }));
+        ChatTextInput.val("")
+    }
+});
