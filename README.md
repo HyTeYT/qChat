@@ -15,7 +15,7 @@ Welcome to qChat - which is currently available in German.
 How to install?
 
 -> 1. - git clone it into your web server path
--> 2. - run "startserver.sh"
+-> 2. - run "startserver.sh" or "startserver.sh -p" to let the server on even after terminal is closed.
 
 done :)
   
