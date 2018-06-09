@@ -1,5 +1,5 @@
 // Global declarations
-var ChatConnection = new WebSocket('ws://93.201.176.64:1337');
+var ChatConnection = new WebSocket('ws://93.202.12.1:1337');
 var Verified = false;
 const ChatTextInput = $(".ChatTextInput");
 
