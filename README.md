@@ -1,21 +1,16 @@
-# qChat
-A small chat / PHP / no-login / [GERMAN]
+# qChat - the simple chat for everyone!
+## FAQ
+  - What is qChat?
+    - qChat is a simple, websocket-based online Chatroom-Application!
+    
+  - Can I use it for myself?
+    - Of course you can! It's open source! Just make sure to credit `@marvinborner` and `@hyteyt`!
 
+## Installation Guide
 
-Welcome to qChat - which is currently available in German.
+1. `git clone` it into your web server path
+2. Go into `assets/php/Server/` directory and install server files with `composer install`
+2. Run `startserver.sh` or `startserver.sh -p` to let the server on even after terminal is closed.
 
-  - What is qChat? -
-  --> qChat is a simple, websocket-based online ChatRoom-Application!
-  
-  - Can I use it for myself? -
-  --> Of course you can! It's open source! Just make sure to credit marvinborner and hyteyt!
-  
---------------------------------------
-
-How to install?
-
--> 1. - git clone it into your web server path
--> 2. - run "startserver.sh" or "startserver.sh -p" to let the server on even after terminal is closed.
-
-done :)
+Enjoy!
   
