@@ -5,16 +5,20 @@ namespace qChat;
 use Ratchet\ConnectionInterface;
 use Ratchet\WebSocket\MessageComponentInterface;
 use Ratchet\RFC6455\Messaging\MessageInterface;
+use PDO;
 
 class Chat implements MessageComponentInterface
 {
     protected $clients;
+    protected $pdo;
     private $ConnectedUsernames;
     private $Users;
 
     public function __construct() {
         $this->clients = new \SplObjectStorage;
         $this->ConnectedUsernames = [];
+        $this->pdo = new PDO('sqlite:../database/chats.db');
+        $this->pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
     }
 
     public function onOpen(ConnectionInterface $conn) {
@@ -31,6 +35,17 @@ class Chat implements MessageComponentInterface
             case "Join":
                 $this->ConnectedUsernames[$conn->resourceId] = $data->Username;
                 echo "Connection {$conn->resourceId} now has an username ({$this->ConnectedUsernames[$conn->resourceId]})!\n";
+
+		$stmt = $this->pdo->query("SELECT * FROM messages;");
+		$messages = $stmt->fetchAll();
+		print_r($messages);
+		foreach ($messages as $message) {
+		    $AnswerObject->Message = $message["message"];
+                    $AnswerObject->Username = $message["nickname"];
+                    $AnswerJson = json_encode($AnswerObject, TRUE);
+		    $this->Users[$conn->resourceId]->send($AnswerJson);
+		}
+
                 break;
             case "Message":
                 if (array_key_exists($conn->resourceId, $this->ConnectedUsernames)) { // User has a username
@@ -45,6 +60,11 @@ class Chat implements MessageComponentInterface
                     $AnswerObject->Message = $data->Message;
                     $AnswerObject->Username = $this->ConnectedUsernames[$conn->resourceId];
                     $AnswerJson = json_encode($AnswerObject, TRUE);
+
+       		    $ins = $this->pdo->prepare("INSERT INTO messages (nickname, message) VALUES (:nick, :msg);");
+                    $ins->bindParam(':nick', $AnswerObject->Username);
+                    $ins->bindParam(':msg', $AnswerObject->Message);
+                    $ins->execute();
 
                     foreach ($this->Users as $User) {
                         $User->send($AnswerJson); // SEND TO ALL

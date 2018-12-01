@@ -1,2 +1,3 @@
 .idea/
 assets/php/Server/vendor/
+assets/php/Server/database/chats.db

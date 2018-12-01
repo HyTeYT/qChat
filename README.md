@@ -10,7 +10,9 @@
 
 1. `git clone` it into your web server path
 2. Go into `assets/php/Server/` directory and install server files with `composer install`
-2. Run `startserver.sh` or `startserver.sh -p` to let the server on even after terminal is closed.
+3. Cd into `assets/php/Server/src/` and execute `php createDB.php` (sqlite3 required)
+4. Edit the websocket IP in the `assets/js/main.js` file according to your servers IP (you can also use a DynDNS)  
+5. Run `startserver.sh` to start the server normally or `startserver.sh -p` to start it as a daemon.
 
 Enjoy!
   

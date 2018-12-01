@@ -12,7 +12,8 @@ $server = IoServer::factory(
             new Chat()
         )
     ),
-    1337
+    1337,
+    '0.0.0.0'
 );
 
 $server->run();
